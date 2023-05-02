@@ -89,7 +89,14 @@ Options:
 }
 
 func (app *appEnv) run() error {
-	return nil
+	switch flag.Arg(0) {
+	case "send":
+		return app.Send()
+	case "receive":
+		return app.Receive()
+	default:
+		return fmt.Errorf("unknown command: %s", flag.Arg(0))
+	}
 }
 
 func CLI(args []string) int {

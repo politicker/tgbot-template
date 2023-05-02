@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func Receive(app *appEnv) {
+func (app *appEnv) Receive() error {
 	ch := make(chan tgbotapi.Update)
 
 	config := tgbotapi.NewUpdate(0)
@@ -36,4 +36,6 @@ func Receive(app *appEnv) {
 		fmt.Println("Received update")
 		fmt.Println(update)
 	}
+
+	return nil
 }
