@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	os.Exit(bot.CLI(os.Args[1:]))
+	os.Exit(bot.CLI(os.Args))
 }
