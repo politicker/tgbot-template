@@ -35,6 +35,8 @@ func (app *appEnv) Receive() error {
 	for update := range ch {
 		fmt.Println("Received update")
 		fmt.Println(update)
+
+		// magic goes here
 	}
 
 	return nil
