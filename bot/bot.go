@@ -77,6 +77,13 @@ Options:
 	if err != nil {
 		return err
 	}
+
+	switch fl.Arg(0) {
+	case "send":
+		logger = logger.With(zap.String("context", "send-cmd"))
+	case "receive":
+		logger = logger.With(zap.String("context", "receive-cmd"))
+	}
 	app.logger = logger
 
 	return nil
