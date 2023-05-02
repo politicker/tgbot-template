@@ -6,14 +6,13 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"go.uber.org/zap"
 	"os"
-	"time"
 )
 
 type appEnv struct {
 	bot            *tgbotapi.BotAPI
 	tgAPIKey       string
 	logger         *zap.Logger
-	receiveTimeout time.Duration
+	receiveTimeout int
 	debug          bool
 }
 
@@ -23,11 +22,11 @@ func (app *appEnv) fromArgs(args []string) error {
 	fl.StringVar(&app.tgAPIKey, "k", os.Getenv("TELEGRAM_API_KEY"), "Telegram API key")
 	fl.StringVar(&app.tgAPIKey, "key", os.Getenv("TELEGRAM_API_KEY"), "Telegram API key")
 
-	fl.DurationVar(
-		&app.receiveTimeout, "t", 60*time.Second, "Receive message handler timeout",
+	fl.IntVar(
+		&app.receiveTimeout, "t", 60, "Receive message handler timeout",
 	)
-	fl.DurationVar(
-		&app.receiveTimeout, "timeout", 60*time.Second, "Receive message handler timeout",
+	fl.IntVar(
+		&app.receiveTimeout, "timeout", 60, "Receive message handler timeout",
 	)
 
 	fl.BoolVar(

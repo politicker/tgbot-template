@@ -11,7 +11,7 @@ func Receive(app *appEnv) {
 	ch := make(chan tgbotapi.Update)
 
 	config := tgbotapi.NewUpdate(0)
-	config.Timeout = 60
+	config.Timeout = app.receiveTimeout
 
 	go func() {
 		for {
