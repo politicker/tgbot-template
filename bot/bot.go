@@ -52,23 +52,26 @@ Options:
   -t, --timeout int   Receive message handler timeout (default: 60)
   -d, --debug         Enable debug mode
   -h, --help          Show this help message
+
 `
 		fmt.Fprintf(os.Stderr, usage)
 	}
 
+	if app.tgAPIKey == "" {
+		fl.Usage()
+		return fmt.Errorf("missing Telegram API key")
+	}
+
 	bot, err := tgbotapi.NewBotAPI(app.tgAPIKey)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create bot: %w", err)
 	}
 	app.bot = bot
 
 	var config zap.Config
-	if os.Getenv("GO_ENV") == "production" {
+	if os.Getenv("GO_ENV") == "production" && !app.debug {
 		config = zap.NewProductionConfig()
 	} else {
-		config = zap.NewDevelopmentConfig()
-	}
-	if app.debug {
 		config = zap.NewDevelopmentConfig()
 	}
 
@@ -103,10 +106,11 @@ func CLI(args []string) int {
 	var app appEnv
 	err := app.fromArgs(args)
 	if err != nil {
+		fmt.Fprintf(os.Stderr, "init error: %v\n", err)
 		return 2
 	}
 	if err = app.run(); err != nil {
-		fmt.Fprintf(os.Stderr, "Runtime error: %v\n", err)
+		fmt.Fprintf(os.Stderr, "runtime error: %v\n", err)
 		return 1
 	}
 	return 0
